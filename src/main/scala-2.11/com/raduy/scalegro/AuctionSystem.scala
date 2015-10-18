@@ -1,13 +1,9 @@
 package com.raduy.scalegro
 
 import java.util.Random
-import java.util.concurrent.TimeUnit
 
 import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.event.LoggingReceive
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.duration.Duration
 
 /**
  * @author Łukasz Raduj 2015.
@@ -18,11 +14,8 @@ class AuctionSystem extends Actor with ActorLogging {
 
   override def receive: Receive = LoggingReceive {
     case CreateNewAuctionCommand(title: String, description: String) =>
-      val newAuction: ActorRef = context.actorOf(Props(new Auction(title, description)))
+      val newAuction: ActorRef = context.actorOf(Props(new Auction(title, description)), title.replace(" ", "_"))
       auctions = newAuction :: auctions
-
-      import ExecutionContext.Implicits.global
-      context.system.scheduler.scheduleOnce(Duration(5, TimeUnit.SECONDS), newAuction, FinishAuctionCommand)
 
       log.debug("New auction created! Title: " + title)
     case CreateNewBuyerCommand(name: String) =>
@@ -39,6 +32,7 @@ class AuctionSystem extends Actor with ActorLogging {
 
         auction ! BidCommand(offer, buyer)
         offer = offer + 1.0
+        Thread sleep (rand.nextInt(1000) + 500)
       }
 
     case ListAllAuctionsQuery() =>

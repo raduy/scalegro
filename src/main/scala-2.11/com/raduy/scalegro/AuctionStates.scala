@@ -12,5 +12,5 @@ case object Activated extends AuctionState
 case object Sold extends AuctionState
 
 sealed trait AuctionData
-case object NoOffers extends AuctionData
+case object NoOffer extends AuctionData
 case class Offer(price: BigDecimal, bidder: ActorRef) extends AuctionData
