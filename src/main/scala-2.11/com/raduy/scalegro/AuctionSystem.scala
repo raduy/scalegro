@@ -34,9 +34,5 @@ class AuctionSystem extends Actor with ActorLogging {
         offer = offer + 1.0
         Thread sleep (rand.nextInt(1000) + 500)
       }
-
-    case ListAllAuctionsQuery() =>
-      sender() ! auctions
-    case AuctionFinishedEvent(auctionId: String) =>
   }
 }

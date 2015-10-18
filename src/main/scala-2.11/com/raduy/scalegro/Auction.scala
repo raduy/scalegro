@@ -20,7 +20,7 @@ class Auction(title: String, description: String) extends FSM[AuctionState, Auct
   }
 
   def deleteItem() = {
-    log.debug("Deleting sold auction")
+    log.debug("Deleting sold auction with title '{}'", title)
     context.stop(self)
   }
 
@@ -31,7 +31,7 @@ class Auction(title: String, description: String) extends FSM[AuctionState, Auct
 
   when(Created) {
     case Event(BidCommand(offer: BigDecimal, bidder: ActorRef), NoOffer) =>
-      log.debug("First offer received! Offer value:" + offer)
+      log.debug("First offer in '{}' received! Offer value: {}", title, offer)
       goto(Activated) using Offer(offer, bidder)
 
     case Event(FinishAuctionCommand, NoOffer) =>
@@ -50,11 +50,11 @@ class Auction(title: String, description: String) extends FSM[AuctionState, Auct
 
   when(Activated) {
     case Event(BidCommand(offer: BigDecimal, bidder: ActorRef), o: Offer) =>
-      log.debug("New offer in on-going auction! Offer value:" + offer)
+      log.debug("New offer in '{}' auction! Offer value: {}", title, offer)
       stay() using (if (offer > o.price) Offer(offer, bidder) else o)
 
     case Event(FinishAuctionCommand, o: Offer) =>
-      log.debug("Finishing auction! Final Price:" + o.price)
+      log.debug("Finishing auction '{}'! Final Price: {}", title, o.price)
       //notify buyer
       o.bidder ! YouWonAuctionEvent(title, o.price)
 

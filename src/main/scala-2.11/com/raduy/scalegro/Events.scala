@@ -5,6 +5,4 @@ package com.raduy.scalegro
  */
 case class AuctionFinishedEvent(auctionId: String)
 
-case class StartAuctionEvent()
-
 case class YouWonAuctionEvent(auctionTitle: String, finalPrice: BigDecimal)
