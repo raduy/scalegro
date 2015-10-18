@@ -3,7 +3,7 @@ package com.raduy.scalegro
 import akka.actor.{Actor, ActorRef}
 
 /**
- * Created by Łukasz Raduj on 10/17/15.
+ * @author Łukasz Raduj 2015.
  */
 class Buyer(name: String, auctions: List[ActorRef]) extends Actor {
   var myOffer: BigDecimal = 0.0

@@ -22,7 +22,7 @@ class AuctionSystem extends Actor with ActorLogging {
       auctions = newAuction :: auctions
 
       import ExecutionContext.Implicits.global
-      context.system.scheduler.scheduleOnce(Duration(5, TimeUnit.MINUTES), newAuction, FinishAuctionCommand)
+      context.system.scheduler.scheduleOnce(Duration(5, TimeUnit.SECONDS), newAuction, FinishAuctionCommand)
 
       log.debug("New auction created! Title: " + title)
     case CreateNewBuyerCommand(name: String) =>
