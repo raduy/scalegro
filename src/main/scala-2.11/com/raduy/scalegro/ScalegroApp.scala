@@ -3,7 +3,7 @@ package com.raduy.scalegro
 import akka.actor.{ActorRef, ActorSystem, Props}
 
 /**
- * Created by Łukasz Raduj on 10/17/15.
+ * @author Łukasz Raduj 2015.
  */
 object ScalegroApp extends App {
   private val system: ActorSystem = ActorSystem("Scalegro")
