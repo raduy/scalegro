@@ -17,12 +17,12 @@ class AuctionSystem extends Actor with ActorLogging {
       val newAuction: ActorRef = context.actorOf(Props(new Auction(title, description)), title.replace(" ", "_"))
       auctions = newAuction :: auctions
 
-      log.debug("New auction created! Title: " + title)
+      log.debug("New auction created! Title: {}", title)
     case CreateNewBuyerCommand(name: String) =>
       val newBuyer: ActorRef = context.actorOf(Props(new Buyer(name, auctions)))
       buyers = newBuyer :: buyers
 
-      log.debug("New buyer created! Name: " + name)
+      log.debug("New buyer created! Name: {}", name)
     case DoDemoCommand() =>
       val rand = new Random()
       var offer = BigDecimal(1.0)
